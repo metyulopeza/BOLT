@@ -71,10 +71,10 @@ function iniciarPanel() {
     { id: '#106', ambiente: '401', servicio: 'TIC', estado: 'En Proceso', prioridad: 'Alta', tiempo: '30m' },
     { id: '#105', ambiente: '303', servicio: 'Seguridad', estado: 'Resuelta', prioridad: 'Baja', tiempo: '2h' }]);
   let A = load('bolt_ambientes', [
-    { num: 'Ambiente 401', ubicacion: 'Piso 4 - Torre A', capacidad: '35 Aprendices', estado: 'Con Novedad' },
-    { num: 'Ambiente 305', ubicacion: 'Piso 3 - Torre B', capacidad: '30 Aprendices', estado: 'Disponible' },
-    { num: 'Ambiente 303', ubicacion: 'Piso 3 - Torre A', capacidad: '40 Aprendices', estado: 'Disponible' },
-    { num: 'Ambiente 201', ubicacion: 'Piso 2 - Torre A', capacidad: '25 Aprendices', estado: 'Disponible' }]);
+    { num: 'Ambiente 401', ubicacion: '4 Piso', capacidad: '35 Aprendices', estado: 'Con Novedad' },
+    { num: 'Ambiente 305', ubicacion: '3 Piso', capacidad: '30 Aprendices', estado: 'Disponible' },
+    { num: 'Ambiente 303', ubicacion: '3 Piso', capacidad: '40 Aprendices', estado: 'Disponible' },
+    { num: 'Ambiente 201', ubicacion: '2 Piso', capacidad: '25 Aprendices', estado: 'Disponible' }]);
   let U = getUsers();
   let N = load('bolt_notifs', [{ t: 'Novedad asignada en Ambiente 401.', r: 0 }, { t: 'Solicitud #107 resuelta por Seguridad.', r: 0 }, { t: 'Mantenimiento programado el viernes.', r: 0 }]);
   const persist = () => { save('bolt_solicitudes', S); save('bolt_ambientes', A); save('bolt_usuarios', U); save('bolt_notifs', N); };
