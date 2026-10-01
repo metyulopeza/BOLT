@@ -10,9 +10,14 @@
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
   <header class="app-header">
-    <div class="brand">
-      <h1 class="logo-text">Bolt</h1>
-      <span class="sub-logo">Centro de Servicios Financieros</span>
+    <div class="header-left">
+      <button type="button" id="btn-menu" class="menu-toggle" aria-label="Ocultar menú lateral" aria-expanded="true" aria-controls="sidebar">
+        <span aria-hidden="true">☰</span>
+      </button>
+      <div class="brand">
+        <h1 class="logo-text">Bolt</h1>
+        <span class="sub-logo">Centro de Servicios Financieros</span>
+      </div>
     </div>
 
     <form class="search-bar" role="search">
@@ -24,27 +29,427 @@
       <button type="button" class="icon-btn" id="btn-notif" aria-label="Ver notificaciones">
         <span aria-hidden="true">🔔</span><span class="badge" id="notif-count">0</span>
       </button>
-      <div class="avatar" id="user-avatar" aria-hidden="true">--</div>
-      <div class="user-info">
-        <span class="user-name" id="display-username">Cargando...</span>
-        <span class="user-role" id="display-role">Rol</span>
+      <div class="user-menu">
+        <button type="button" id="btn-user" class="user-btn" aria-label="Configuración de la cuenta" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-ajustes">
+          <span class="avatar" id="user-avatar" aria-hidden="true">--</span>
+          <span class="user-info">
+            <span class="user-name" id="display-username">Cargando...</span>
+            <span class="user-role" id="display-role">Rol</span>
+          </span>
+          <span aria-hidden="true">▾</span>
+        </button>
+        <ul id="menu-ajustes" class="dropdown" role="menu" aria-label="Configuración" hidden>
+          <li role="none" data-roles="Instructor TIC Administrador"><button type="button" role="menuitem" data-k="perfil">👤 Mi perfil</button></li>
+          <li role="none" data-roles="Instructor TIC Administrador"><button type="button" role="menuitem" data-k="clave">🔑 Cambiar contraseña</button></li>
+          <li role="none" data-roles="Instructor TIC Administrador"><button type="button" role="menuitem" data-k="correo">📧 Notificaciones por correo</button></li>
+          <li role="none" data-roles="Administrador" class="sep"><button type="button" role="menuitem" data-k="reset">♻️ Restablecer datos de demostración</button></li>
+        </ul>
       </div>
       <button type="button" id="btn-logout" class="btn-sm btn-logout">Salir</button>
     </div>
   </header>
 
   <div class="layout-container">
-    <aside class="sidebar">
-      <nav aria-label="Menú principal"><ul id="sidebar-menu"></ul></nav>
+    <aside class="sidebar" id="sidebar">
+      <nav aria-label="Menú principal"><ul id="sidebar-menu">
+          <li data-roles="Instructor"><a href="#" data-sec="dash"><span class="ico" aria-hidden="true">🏠</span><span class="lbl">Inicio</span></a></li>
+          <li data-roles="Instructor"><a href="#" data-sec="ambientes"><span class="ico" aria-hidden="true">🏫</span><span class="lbl">Catálogo de Ambientes</span></a></li>
+          <li data-roles="Instructor"><a href="#" data-sec="solicitudes"><span class="ico" aria-hidden="true">🎫</span><span class="lbl">Mis Solicitudes</span></a></li>
+          <li data-roles="Instructor"><a href="#" data-sec="reportes"><span class="ico" aria-hidden="true">📊</span><span class="lbl">Mis Estadísticas</span></a></li>
+          <li data-roles="TIC"><a href="#" data-sec="dash"><span class="ico" aria-hidden="true">📥</span><span class="lbl">Tickets Asignados</span></a></li>
+          <li data-roles="TIC"><a href="#" data-sec="solicitudes"><span class="ico" aria-hidden="true">⚠️</span><span class="lbl">Gestión de Novedades</span></a></li>
+          <li data-roles="TIC"><a href="#" data-sec="ambientes"><span class="ico" aria-hidden="true">🏫</span><span class="lbl">Ambientes</span></a></li>
+          <li data-roles="Administrador"><a href="#" data-sec="dash"><span class="ico" aria-hidden="true">📊</span><span class="lbl">Panel General</span></a></li>
+          <li data-roles="Administrador"><a href="#" data-sec="usuarios"><span class="ico" aria-hidden="true">👥</span><span class="lbl">Gestión de Usuarios</span></a></li>
+          <li data-roles="Administrador"><a href="#" data-sec="ambientes"><span class="ico" aria-hidden="true">🏫</span><span class="lbl">Gestión de Ambientes</span></a></li>
+          <li data-roles="Administrador"><a href="#" data-sec="reportes"><span class="ico" aria-hidden="true">📈</span><span class="lbl">Reportes de Gestión</span></a></li>
+        </ul></nav>
     </aside>
-    <main id="contenido" class="main-content" tabindex="-1"></main>
+    <main id="contenido" class="main-content" tabindex="-1">
+
+      <!-- Vista 1: Inicio (cambia según el rol) -->
+      <section id="v-dash" class="vista" aria-labelledby="dash-titulo">
+        <h2 id="dash-titulo" data-roles="Instructor">Inicio</h2>
+        <h2 data-roles="TIC">Atención de novedades y solicitudes</h2>
+        <h2 data-roles="Administrador">Panel general de control</h2>
+        <div class="hero-actions" data-roles="Instructor">
+          <button type="button" class="btn btn-urgent" data-act="novedad">🔴 Reportar novedad urgente <span class="tag">&lt; 3 clics</span></button>
+          <button type="button" class="btn btn-primary" data-act="apertura">🔵 Solicitar apertura / asistencia <span class="tag">&lt; 3 clics</span></button>
+        </div>
+        <div class="metrics-grid">
+          <article class="metric-card" data-roles="Instructor" data-kpi="activas"><h3>Solicitudes activas</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="Instructor" data-kpi="resueltas"><h3>Solicitudes resueltas</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="Instructor" data-kpi="novedad"><h3>Ambientes con novedad</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="TIC" data-kpi="alta"><h3>Atención inmediata (Alta)</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="TIC" data-kpi="activas"><h3>En atención</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="TIC" data-kpi="resueltas"><h3>Resueltas</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="Administrador" data-kpi="total"><h3>Total solicitudes</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="Administrador" data-kpi="activas"><h3>Pendientes</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-roles="Administrador" data-kpi="usuarios"><h3>Usuarios activos</h3><p class="metric-value kpi-value"></p></article>
+        </div>
+        <section class="table-section">
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption>Solicitudes recientes</caption>
+              <thead>
+                <tr><th scope="col">ID</th><th scope="col">Ambiente</th><th scope="col">Servicio</th><th scope="col">Estado</th><th scope="col">Prioridad</th><th scope="col">Tiempo</th><th scope="col">Acciones</th></tr>
+              </thead>
+              <tbody id="tb-sol-dash"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- Vista 2: Catálogo de ambientes -->
+      <section id="v-ambientes" class="vista" aria-labelledby="amb-titulo" hidden>
+        <div class="page-head">
+          <h2 id="amb-titulo">🏫 Catálogo y disponibilidad de ambientes</h2>
+          <button type="button" class="btn btn-primary" data-act="crearAmb" data-roles="Administrador">+ Agregar ambiente</button>
+        </div>
+        <section class="table-section">
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption>Ambientes</caption>
+              <thead>
+                <tr><th scope="col">Ambiente</th><th scope="col">Ubicación</th><th scope="col">Capacidad</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+              </thead>
+              <tbody id="tb-amb"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- Vista 3: Solicitudes y novedades -->
+      <section id="v-solicitudes" class="vista" aria-labelledby="sol-titulo" hidden>
+        <h2 id="sol-titulo">🎫 Historial de solicitudes y novedades</h2>
+        <section class="table-section">
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption>Todas las solicitudes</caption>
+              <thead>
+                <tr><th scope="col">ID</th><th scope="col">Ambiente</th><th scope="col">Servicio</th><th scope="col">Estado</th><th scope="col">Prioridad</th><th scope="col">Tiempo</th><th scope="col">Acciones</th></tr>
+              </thead>
+              <tbody id="tb-sol"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- Vista 4: Usuarios (solo administrador) -->
+      <section id="v-usuarios" class="vista" aria-labelledby="usr-titulo" hidden>
+        <div class="page-head">
+          <h2 id="usr-titulo">👥 Gestión de usuarios</h2>
+          <button type="button" class="btn btn-primary" data-act="crearUsr">+ Crear usuario</button>
+        </div>
+        <section class="table-section">
+          <div class="table-wrap">
+            <table class="data-table">
+              <caption>Usuarios</caption>
+              <thead>
+                <tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr>
+              </thead>
+              <tbody id="tb-usr"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <!-- Vista 5: Reportes -->
+      <section id="v-reportes" class="vista" aria-labelledby="rep-titulo" hidden>
+        <h2 id="rep-titulo">📊 Reportes de gestión</h2>
+        <div class="metrics-grid">
+          <article class="metric-card" data-kpi="tic"><h3>Solicitudes TIC</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-kpi="seguridad"><h3>Solicitudes Seguridad</h3><p class="metric-value kpi-value"></p></article>
+          <article class="metric-card" data-kpi="satisfaccion"><h3>Satisfacción</h3><p class="metric-value kpi-value"></p></article>
+        </div>
+        <button type="button" class="btn btn-primary" data-act="exportar">📥 Descargar reporte (CSV)</button>
+      </section>
+
+      <!-- Vista 6: Mi perfil (se abre desde el menú del encabezado) -->
+      <section id="v-perfil" class="vista" aria-labelledby="perfil-titulo" hidden>
+        <h2 id="perfil-titulo">👤 Mi perfil</h2>
+        <div class="table-section">
+          <dl class="info-list">
+            <dt>Usuario</dt><dd id="p-nombre"></dd>
+            <dt>Correo</dt><dd id="p-correo"></dd>
+            <dt>Rol</dt><dd id="p-rol"></dd>
+            <dt>Notificaciones por correo</dt><dd id="p-notif"></dd>
+          </dl>
+          <button type="button" class="btn btn-primary" data-act="clave">Cambiar contraseña</button>
+        </div>
+      </section>
+
+    </main>
   </div>
 
   <footer class="app-footer">Bolt · Proyecto formativo SENA</footer>
 
   <p id="resultados" class="sr-only" aria-live="polite"></p>
   <div id="toast" role="status" aria-live="polite"></div>
-  <dialog id="dlg" aria-labelledby="dlg-title"></dialog>
+    <!-- Plantillas: el JavaScript las copia y rellena con los datos -->
+  <template id="tpl-sol"><tr><td><b data-f="id"></b></td><td data-f="ambiente"></td><td data-f="servicio"></td><td><span class="badge-status" data-f="estado"></span></td><td><span class="badge-status" data-f="prioridad"></span></td><td data-f="tiempo"></td><td><button type="button" class="btn-sm btn-action"></button></td></tr></template>
+  <template id="tpl-amb"><tr><td><b data-f="num"></b></td><td data-f="ubicacion"></td><td data-f="capacidad"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="estadoAmb" data-roles="Administrador">Cambiar estado</button><button type="button" class="btn-sm btn-primary" data-act="apertura" data-roles="Instructor">Solicitar apertura</button></td></tr></template>
+  <template id="tpl-usr"><tr><td><b data-f="nombre"></b></td><td data-f="correo"></td><td data-f="rol"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="editUsr">Editar</button></td></tr></template>
+  <template id="tpl-notif"><li></li></template>
+  <template id="tpl-vacio"><tr><td><span class="msg"></span></td></tr></template>
+
+  <!-- Notificaciones -->
+  <dialog id="dlg-notif" aria-labelledby="t-notif">
+    <h2 id="t-notif">🔔 Notificaciones</h2>
+    <ul id="lista-notif" class="note-list"></ul>
+    <div class="modal-actions"><button type="button" class="btn btn-secondary" data-close>Cerrar</button></div>
+  </dialog>
+
+  <!-- Formularios en ventanas de diálogo -->
+  <dialog id="dlg-novedad" aria-labelledby="t-novedad">
+    <h2 id="t-novedad">Reportar novedad urgente</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="novedad-amb">Ambiente de formación *</label>
+        <select id="novedad-amb" name="amb" required data-fuente="ambientes"><option value="">-- Seleccione --</option></select>
+        <span class="error-message" id="error-novedad-amb" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="novedad-serv">Área responsable *</label>
+        <select id="novedad-serv" name="serv" required><option value="">-- Seleccione --</option><option value="TIC">TIC</option><option value="Seguridad">Seguridad</option></select>
+        <span class="error-message" id="error-novedad-serv" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="novedad-desc">Descripción de la novedad *</label>
+        <textarea id="novedad-desc" name="desc" rows="3" required minlength="10"></textarea>
+        <span class="error-message" id="error-novedad-desc" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Enviar novedad</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-apertura" aria-labelledby="t-apertura">
+    <h2 id="t-apertura">Solicitar apertura / asistencia</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="apertura-amb">Ambiente *</label>
+        <select id="apertura-amb" name="amb" required data-fuente="ambientes"><option value="">-- Seleccione --</option></select>
+        <span class="error-message" id="error-apertura-amb" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="apertura-hora">Hora requerida *</label>
+        <input id="apertura-hora" name="hora" type="time" required >
+        <span class="error-message" id="error-apertura-hora" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Solicitar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-calificar" aria-labelledby="t-calificar">
+    <h2 id="t-calificar">Calificar atención <span class="ref"></span></h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="calificar-nota">Calificación *</label>
+        <select id="calificar-nota" name="nota" required><option value="">-- Seleccione --</option><option value="5">5 ★ Excelente</option><option value="4">4 ★</option><option value="3">3 ★</option><option value="2">2 ★</option><option value="1">1 ★ Deficiente</option></select>
+        <span class="error-message" id="error-calificar-nota" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="calificar-comentario">Comentario</label>
+        <textarea id="calificar-comentario" name="comentario" rows="3" ></textarea>
+        <span class="error-message" id="error-calificar-comentario" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-atender" aria-labelledby="t-atender">
+    <h2 id="t-atender">Atender solicitud <span class="ref"></span></h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="atender-estado">Estado *</label>
+        <select id="atender-estado" name="estado" required><option value="">-- Seleccione --</option><option value="Asignada">Asignada</option><option value="En Proceso">En Proceso</option><option value="Resuelta">Resuelta</option></select>
+        <span class="error-message" id="error-atender-estado" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="atender-obs">Observaciones *</label>
+        <textarea id="atender-obs" name="obs" rows="3" required minlength="5"></textarea>
+        <span class="error-message" id="error-atender-obs" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-crearamb" aria-labelledby="t-crearamb">
+    <h2 id="t-crearamb">Agregar ambiente</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="crearamb-num">Nombre (ej. Ambiente 501) *</label>
+        <input id="crearamb-num" name="num" type="text" required >
+        <span class="error-message" id="error-crearamb-num" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="crearamb-ubi">Ubicación *</label>
+          <select name="ubi" id="crearamb-ubi">
+            <option value="Piso 1">Piso 1</option>
+            <option value="Piso 2">Piso 2</option>
+            <option value="Piso 3">Piso 3</option>
+            <option value="Piso 4">Piso 4</option>
+            <option value="Piso 5">Piso 5</option>
+            <option value="Piso 6">Piso 6</option>
+            <option value="Piso 7">Piso 7</option>
+            <option value="Piso 8">Piso 8</option>
+            <option value="Piso 9">Piso 9</option>
+            <option value="Piso 10">Piso 10</option>
+            <option value="Piso 11">Piso 11</option>
+            <option value="Piso 12">Piso 12</option>
+            <option value="Piso 13">Piso 13</option>
+            <option value="Piso 14">Piso 14</option>
+            <option value="Piso 15">Piso 15</option>
+            <option value="Piso 16">Piso 16</option>
+            <option value="Piso 17">Piso 17</option>
+            <option value="Piso 18">Piso 18</option>
+            <option value="Piso 19">Piso 19</option>
+          </select>
+        <span class="error-message" id="error-crearamb-ubi" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="crearamb-cap">Capacidad (aprendices) *</label>
+        <input id="crearamb-cap" name="cap" type="number" required min="1" max="100">
+        <span class="error-message" id="error-crearamb-cap" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-estadoamb" aria-labelledby="t-estadoamb">
+    <h2 id="t-estadoamb">Estado del ambiente <span class="ref"></span></h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="estadoamb-estado">Estado *</label>
+        <select id="estadoamb-estado" name="estado" required><option value="">-- Seleccione --</option><option value="Disponible">Disponible</option><option value="Con Novedad">Con Novedad</option><option value="Cerrado">Cerrado</option></select>
+        <span class="error-message" id="error-estadoamb-estado" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-crearusr" aria-labelledby="t-crearusr">
+    <h2 id="t-crearusr">Crear usuario</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="crearusr-nom">Nombre completo *</label>
+        <input id="crearusr-nom" name="nom" type="text" required minlength="3">
+        <span class="error-message" id="error-crearusr-nom" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="crearusr-cor">Correo institucional *</label>
+        <input id="crearusr-cor" name="cor" type="email" required pattern="[^\s@]+@sena\.edu\.co" data-msg="Use un correo @sena.edu.co válido.">
+        <span class="error-message" id="error-crearusr-cor" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="crearusr-rol">Rol *</label>
+        <select id="crearusr-rol" name="rol" required><option value="">-- Seleccione --</option><option value="Instructor">Instructor</option><option value="TIC">TIC</option><option value="Administrador">Administrador</option></select>
+        <span class="error-message" id="error-crearusr-rol" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="crearusr-cla">Contraseña temporal *</label>
+        <input id="crearusr-cla" name="cla" type="password" required pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" data-msg="Mínimo 8 caracteres, con letras y números.">
+        <span class="error-message" id="error-crearusr-cla" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Crear</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-editusr" aria-labelledby="t-editusr">
+    <h2 id="t-editusr">Editar usuario <span class="ref"></span></h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="editusr-rol">Rol *</label>
+        <select id="editusr-rol" name="rol" required><option value="">-- Seleccione --</option><option value="Instructor">Instructor</option><option value="TIC">TIC</option><option value="Administrador">Administrador</option></select>
+        <span class="error-message" id="error-editusr-rol" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="editusr-estado">Estado *</label>
+        <select id="editusr-estado" name="estado" required><option value="">-- Seleccione --</option><option value="Activo">Activo</option><option value="Inactivo">Inactivo</option></select>
+        <span class="error-message" id="error-editusr-estado" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-clave" aria-labelledby="t-clave">
+    <h2 id="t-clave">Cambiar contraseña</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="clave-actual">Contraseña actual *</label>
+        <input id="clave-actual" name="actual" type="password" required >
+        <span class="error-message" id="error-clave-actual" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="clave-nueva">Nueva contraseña *</label>
+        <input id="clave-nueva" name="nueva" type="password" required pattern="(?=.*[A-Za-z])(?=.*\d).{8,}" data-msg="Mínimo 8 caracteres, con letras y números.">
+        <span class="error-message" id="error-clave-nueva" role="alert"></span>
+      </div>
+      <div class="form-group">
+        <label for="clave-repetir">Confirmar nueva contraseña *</label>
+        <input id="clave-repetir" name="repetir" type="password" required >
+        <span class="error-message" id="error-clave-repetir" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-correo" aria-labelledby="t-correo">
+    <h2 id="t-correo">Notificaciones por correo</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="correo-pref">Estado *</label>
+        <select id="correo-pref" name="pref" required><option value="">-- Seleccione --</option><option value="Activadas">Activadas</option><option value="Desactivadas">Desactivadas</option></select>
+        <span class="error-message" id="error-correo-pref" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-reset" aria-labelledby="t-reset">
+    <h2 id="t-reset">Restablecer datos de demostración</h2>
+    <form novalidate>
+      <div class="form-group">
+        <label for="reset-confirmar">Escriba RESTABLECER para confirmar *</label>
+        <input id="reset-confirmar" name="confirmar" type="text" required pattern="RESTABLECER" data-msg="Escriba exactamente RESTABLECER.">
+        <span class="error-message" id="error-reset-confirmar" role="alert"></span>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-primary">Restablecer</button>
+      </div>
+    </form>
+  </dialog>
 
   <script src="script.js"></script>
 </body>
