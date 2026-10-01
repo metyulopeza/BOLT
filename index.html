@@ -7,26 +7,26 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="login-body">
-
+  <a class="skip-link" href="#form-login">Saltar al formulario</a>
   <main class="login-card">
-    <div class="login-header">
+    <header class="login-header">
       <h1 class="logo-text">Bolt</h1>
       <p class="subtitle">Centro de Servicios Financieros - SENA</p>
-    </div>
+    </header>
 
-    <form id="form-login" novalidate>
+    <form id="form-login" novalidate aria-labelledby="titulo-login">
+      <h2 id="titulo-login" class="sr-only">Formulario de inicio de sesión</h2>
       <div class="form-group">
         <label for="email">Correo Institucional *</label>
-        <input type="email" id="email" placeholder="usuario@sena.edu.co" required>
-        <span class="error-message" id="error-email"></span>
+        <input type="email" id="email" placeholder="usuario@sena.edu.co" autocomplete="username" aria-describedby="error-email" required>
+        <span class="error-message" id="error-email" role="alert"></span>
       </div>
-
       <div class="form-group">
         <label for="password">Contraseña *</label>
-        <input type="password" id="password" placeholder="••••••••" required>
-        <span class="error-message" id="error-password"></span>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" aria-describedby="hint-pass error-password" required>
+        <span class="hint" id="hint-pass">Mínimo 8 caracteres, con letras y números.</span>
+        <span class="error-message" id="error-password" role="alert"></span>
       </div>
-
       <div class="form-group">
         <label for="role-select">Rol de Ingreso *</label>
         <select id="role-select" required>
@@ -35,11 +35,15 @@
           <option value="Administrador">Administrador</option>
         </select>
       </div>
-
+      <p class="error-message" id="login-error" role="alert"></p>
       <button type="submit" class="btn btn-login">Ingresar al Sistema</button>
     </form>
-  </main>
 
+    <details class="demo">
+      <summary>Cuentas de prueba</summary>
+      <p>mvargas@sena.edu.co (Instructor) · mvalderrama@sena.edu.co (TIC) · mlopez@sena.edu.co (Administrador). Contraseña: <b>Bolt2026</b></p>
+    </details>
+  </main>
   <script src="script.js"></script>
 </body>
 </html>
