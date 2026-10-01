@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolt - Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ENCABEZADO DEGRADADO BETOWA -->
+  <header class="app-header">
+    <div class="brand">
+      <h1 class="logo-text">Bolt</h1>
+      <span class="sub-logo">Centro de Servicios Financieros</span>
+    </div>
+
+    <div class="search-bar">
+      <input type="search" placeholder="Buscar ambiente o solicitud (ej. Ambiente 402 / #104)">
+    </div>
+
+    <div class="user-profile">
+      <button class="icon-btn" aria-label="Notificaciones">
+        🔔<span class="badge">3</span>
+      </button>
+      <div class="avatar" id="user-avatar">MV</div>
+      <div class="user-info">
+        <span class="user-name" id="display-username">Cargando...</span>
+        <span class="user-role" id="display-role">Rol</span>
+      </div>
+      <button id="btn-logout" class="btn-sm btn-logout">Salir</button>
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <!-- BARRA LATERAL DINÁMICA -->
+    <aside class="sidebar">
+      <nav>
+        <ul id="sidebar-menu"></ul>
+      </nav>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO SEGÚN ROL -->
+    <main class="main-content">
+
+      <!-- VISTA INSTRUCTOR -->
+      <div id="view-instructor" class="role-view hidden">
+        <section class="hero-actions">
+          <button id="btn-open-modal" class="btn btn-urgent">
+            🔴 Reportar Novedad Urgente <span class="tag">&lt; 3 clics</span>
+          </button>
+          <button class="btn btn-primary">
+            🔵 Solicitar Apertura / Asistencia <span class="tag">&lt; 3 clics</span>
+          </button>
+        </section>
+
+        <section class="metrics-grid">
+          <article class="metric-card">
+            <h3>Solicitudes Activas</h3>
+            <p class="metric-value">2</p>
+          </article>
+          <article class="metric-card">
+            <h3>Solicitudes Resueltas</h3>
+            <p class="metric-value">12 <small>este mes</small></p>
+          </article>
+          <article class="metric-card">
+            <h3>🏫 Ambiente Actual</h3>
+            <p>Ambiente 401: <span class="status-badge">Novedad Registrada</span></p>
+          </article>
+        </section>
+      </div>
+
+      <!-- VISTA TÉCNICO / SEGURIDAD -->
+      <div id="view-tic" class="role-view hidden">
+        <h2>Atención de Novedades y Solicitudes</h2>
+        <section class="metrics-grid">
+          <article class="metric-card">
+            <h3>Atención Inmediata</h3>
+            <p class="metric-value">3</p>
+          </article>
+          <article class="metric-card">
+            <h3>En Atención</h3>
+            <p class="metric-value">5</p>
+          </article>
+        </section>
+      </div>
+
+      <!-- VISTA ADMINISTRADOR -->
+      <div id="view-admin" class="role-view hidden">
+        <h2>Panel General de Control</h2>
+        <section class="metrics-grid">
+          <article class="metric-card">
+            <h3>Total Solicitudes Hoy</h3>
+            <p class="metric-value">24</p>
+          </article>
+          <article class="metric-card">
+            <h3>Tiempo Promedio</h3>
+            <p class="metric-value">18 min</p>
+          </article>
+        </section>
+      </div>
+
+      <!-- TABLA GENERAL DE SOLICITUDES -->
+      <section class="table-section">
+        <h2>Solicitudes Recientes</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ambiente</th>
+              <th>Servicio</th>
+              <th>Estado</th>
+              <th>Prioridad</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>#108</td>
+              <td>401</td>
+              <td>TIC</td>
+              <td><span class="badge-status bg-warning">Asignada</span></td>
+              <td><span class="badge-status bg-danger">Alta</span></td>
+              <td><button class="btn-sm btn-action">Calificar ★</button></td>
+            </tr>
+            <tr>
+              <td>#107</td>
+              <td>305</td>
+              <td>Seguridad</td>
+              <td><span class="badge-status bg-success">Resuelta</span></td>
+              <td><span class="badge-status bg-warning">Media</span></td>
+              <td><button class="btn-sm btn-action">Calificar ★</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL DE REPORTE (Para Instructor) -->
+  <div id="modal-reporte" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Reportar Novedad Urgente</h2>
+        <button id="btn-close-modal" class="close-btn">&times;</button>
+      </div>
+
+      <form id="form-novedad" novalidate>
+        <div class="form-group">
+          <label for="ambiente">Ambiente de Formación *</label>
+          <select id="ambiente" required>
+            <option value="">-- Seleccione un ambiente --</option>
+            <option value="401">Ambiente 401</option>
+            <option value="305">Ambiente 305</option>
+          </select>
+          <span class="error-message" id="error-ambiente"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="descripcion">Descripción de la Novedad *</label>
+          <textarea id="descripcion" rows="3" required></textarea>
+          <span class="error-message" id="error-descripcion"></span>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+          <button type="submit" class="btn btn-urgent">Enviar Novedad</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

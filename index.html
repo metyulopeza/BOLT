@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>BOLT</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolt - Iniciar Sesión</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
-        <div id="registro" class="target">
-            <h1>Registro de usuario</h1>     
-            <form action="">
-                <P><label for="nombre"> Nombre:</label><input type="text" id="nombre"></P>
-                <P><label for="apellido"> Apellido:</label><input type="text" id="apellido"></P>
-                <P><label for="edad"> Edad:</label><input type="text"></P>
-                <P><label for="telefono"> Telefono:<input type="text" id="telefono"></label></P>
+<body class="login-body">
 
-                <button type="submit">Registrarse</button>
-            </form>
-        </div>
+  <main class="login-card">
+    <div class="login-header">
+      <h1 class="logo-text">Bolt</h1>
+      <p class="subtitle">Centro de Servicios Financieros - SENA</p>
+    </div>
 
-        <div>
-            <h1>Registrar una Novedad</h1>
-            <form action="">
-                <p><label for="instructor">Nombre del Instructor: <input type="text" id="Instructor"></label></p>
-                <p><label for="ambiente">Numero de Ambiente: <input type="text" id="n_ambiente"></label></p>
-                <p><label for="personal">Que personal solicita:<input type="text"id="personal"></label></p>
-                <p><label for="servicio">Que servicio necesita: <input type="text" id="servicio"></label></p>
-                <p><label for="observacion">¿Cuenta con alguna observacion?: <textarea id="observacion"></textarea></label></p>
+    <form id="form-login" novalidate>
+      <div class="form-group">
+        <label for="email">Correo Institucional *</label>
+        <input type="email" id="email" placeholder="usuario@sena.edu.co" required>
+        <span class="error-message" id="error-email"></span>
+      </div>
 
+      <div class="form-group">
+        <label for="password">Contraseña *</label>
+        <input type="password" id="password" placeholder="••••••••" required>
+        <span class="error-message" id="error-password"></span>
+      </div>
 
-                <button type="submit">Enviar Novedad</button>
-            </form>
+      <div class="form-group">
+        <label for="role-select">Rol de Ingreso *</label>
+        <select id="role-select" required>
+          <option value="Instructor">Instructor</option>
+          <option value="TIC">Soporte TIC / Seguridad</option>
+          <option value="Administrador">Administrador</option>
+        </select>
+      </div>
 
-        </div>
+      <button type="submit" class="btn btn-login">Ingresar al Sistema</button>
+    </form>
+  </main>
 
-
-
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
