@@ -188,8 +188,8 @@
   <div id="toast" role="status" aria-live="polite"></div>
     <!-- Plantillas: el JavaScript las copia y rellena con los datos -->
   <template id="tpl-sol"><tr><td><b data-f="id"></b></td><td data-f="ambiente"></td><td data-f="servicio"></td><td><span class="badge-status" data-f="estado"></span></td><td><span class="badge-status" data-f="prioridad"></span></td><td data-f="tiempo"></td><td><button type="button" class="btn-sm btn-action"></button></td></tr></template>
-  <template id="tpl-amb"><tr><td><b data-f="num"></b></td><td data-f="ubicacion"></td><td data-f="capacidad"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="estadoAmb" data-roles="Administrador">Cambiar estado</button><button type="button" class="btn-sm btn-primary" data-act="apertura" data-roles="Instructor">Solicitar apertura</button></td></tr></template>
-  <template id="tpl-usr"><tr><td><b data-f="nombre"></b></td><td data-f="correo"></td><td data-f="rol"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="editUsr">Editar</button></td></tr></template>
+  <template id="tpl-amb"><tr><td><b data-f="num"></b></td><td data-f="ubicacion"></td><td data-f="capacidad"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="estadoAmb" data-roles="Administrador">Cambiar estado</button><button type="button" class="btn-sm btn-primary" data-act="apertura" data-roles="Instructor">Solicitar apertura</button><button type="button" class="btn-sm btn-eliminar" data-act="delAmb" data-roles="Administrador">Eliminar</button></td></tr></template>
+  <template id="tpl-usr"><tr><td><b data-f="nombre"></b></td><td data-f="correo"></td><td data-f="rol"></td><td><span class="badge-status" data-f="estado"></span></td><td><button type="button" class="btn-sm btn-action" data-act="editUsr">Editar</button><button type="button" class="btn-sm btn-eliminar" data-act="delUsr">Eliminar</button></td></tr></template>
   <template id="tpl-notif"><li></li></template>
   <template id="tpl-vacio"><tr><td><span class="msg"></span></td></tr></template>
 
@@ -296,27 +296,7 @@
       </div>
       <div class="form-group">
         <label for="crearamb-ubi">Ubicación *</label>
-          <select name="ubi" id="crearamb-ubi">
-            <option value="Piso 1">Piso 1</option>
-            <option value="Piso 2">Piso 2</option>
-            <option value="Piso 3">Piso 3</option>
-            <option value="Piso 4">Piso 4</option>
-            <option value="Piso 5">Piso 5</option>
-            <option value="Piso 6">Piso 6</option>
-            <option value="Piso 7">Piso 7</option>
-            <option value="Piso 8">Piso 8</option>
-            <option value="Piso 9">Piso 9</option>
-            <option value="Piso 10">Piso 10</option>
-            <option value="Piso 11">Piso 11</option>
-            <option value="Piso 12">Piso 12</option>
-            <option value="Piso 13">Piso 13</option>
-            <option value="Piso 14">Piso 14</option>
-            <option value="Piso 15">Piso 15</option>
-            <option value="Piso 16">Piso 16</option>
-            <option value="Piso 17">Piso 17</option>
-            <option value="Piso 18">Piso 18</option>
-            <option value="Piso 19">Piso 19</option>
-          </select>
+        <input id="crearamb-ubi" name="ubi" type="text" required >
         <span class="error-message" id="error-crearamb-ubi" role="alert"></span>
       </div>
       <div class="form-group">
@@ -392,6 +372,17 @@
       <div class="modal-actions">
         <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
         <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="dlg-eliminar" aria-labelledby="t-eliminar">
+    <h2 id="t-eliminar">Confirmar eliminación</h2>
+    <form novalidate>
+      <p>¿Desea eliminar <b class="ref"></b>? Esta acción no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" data-close>Cancelar</button>
+        <button type="submit" class="btn btn-urgent">Eliminar</button>
       </div>
     </form>
   </dialog>

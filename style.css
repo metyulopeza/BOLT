@@ -175,3 +175,5 @@ details.demo{margin-top:16px;font-size:12px;color:#5B6269}
 
 /* Los elementos con atributo hidden (vistas y bloques por rol) siempre se ocultan */
 [hidden]{display:none!important}
+
+.btn-eliminar{background:var(--urgent-magenta)}

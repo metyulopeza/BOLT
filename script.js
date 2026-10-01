@@ -71,10 +71,10 @@ function iniciarPanel() {
     { id: '#106', ambiente: '401', servicio: 'TIC', estado: 'En Proceso', prioridad: 'Alta', tiempo: '30m' },
     { id: '#105', ambiente: '303', servicio: 'Seguridad', estado: 'Resuelta', prioridad: 'Baja', tiempo: '2h' }]);
   let A = load('bolt_ambientes', [
-    { num: 'Ambiente 401', ubicacion: '4 Piso', capacidad: '35 Aprendices', estado: 'Con Novedad' },
-    { num: 'Ambiente 305', ubicacion: '3 Piso', capacidad: '30 Aprendices', estado: 'Disponible' },
-    { num: 'Ambiente 303', ubicacion: '3 Piso', capacidad: '40 Aprendices', estado: 'Disponible' },
-    { num: 'Ambiente 201', ubicacion: '2 Piso', capacidad: '25 Aprendices', estado: 'Disponible' }]);
+    { num: 'Ambiente 401', ubicacion: 'Piso 4 - Torre A', capacidad: '35 Aprendices', estado: 'Con Novedad' },
+    { num: 'Ambiente 305', ubicacion: 'Piso 3 - Torre B', capacidad: '30 Aprendices', estado: 'Disponible' },
+    { num: 'Ambiente 303', ubicacion: 'Piso 3 - Torre A', capacidad: '40 Aprendices', estado: 'Disponible' },
+    { num: 'Ambiente 201', ubicacion: 'Piso 2 - Torre A', capacidad: '25 Aprendices', estado: 'Disponible' }]);
   let U = getUsers();
   let N = load('bolt_notifs', [{ t: 'Novedad asignada en Ambiente 401.', r: 0 }, { t: 'Solicitud #107 resuelta por Seguridad.', r: 0 }, { t: 'Mantenimiento programado el viernes.', r: 0 }]);
   const persist = () => { save('bolt_solicitudes', S); save('bolt_ambientes', A); save('bolt_usuarios', U); save('bolt_notifs', N); };
@@ -117,7 +117,7 @@ function iniciarPanel() {
     campos(f, a); insignia($('[data-f="estado"]', f), a.estado);
     $$('button', f).forEach(b => { b.dataset.n = b.dataset.act === 'apertura' ? a.num.replace('Ambiente ', '') : a.num; if (b.dataset.act === 'apertura') b.hidden = a.estado !== 'Disponible'; });
   };
-  const filaUsr = (f, u) => { campos(f, u); insignia($('[data-f="estado"]', f), u.estado); $('button', f).dataset.c = u.correo; };
+  const filaUsr = (f, u) => { campos(f, u); insignia($('[data-f="estado"]', f), u.estado); $$('button', f).forEach(b => { b.dataset.c = u.correo; }); };
 
   function render() {
     $$('#sidebar-menu a').forEach(a => {
@@ -189,6 +189,17 @@ function iniciarPanel() {
       U.push({ nombre: v.nom, correo: v.cor, rol: v.rol, estado: 'Activo', clave: v.cla }); persist(); toast('Usuario creado.'); render();
     } }),
     editUsr: b => { const u = U.find(x => x.correo === b.dataset.c); abrir('dlg-editusr', { ref: u.nombre, val: { rol: u.rol, estado: u.estado }, ok: v => { u.rol = v.rol; u.estado = v.estado; persist(); toast('Usuario actualizado.'); render(); } }); },
+    delUsr: b => {
+      const u = U.find(x => x.correo === b.dataset.c);
+      if (u.correo === session.email) return toast('No puede eliminar su propia cuenta.');
+      if (u.rol === 'Administrador' && U.filter(x => x.rol === 'Administrador').length < 2) return toast('Debe quedar al menos un administrador.');
+      abrir('dlg-eliminar', { ref: u.nombre, ok: () => { U = U.filter(x => x !== u); persist(); toast('Usuario eliminado.'); render(); } });
+    },
+    delAmb: b => {
+      const a = A.find(x => x.num === b.dataset.n), n = a.num.replace('Ambiente ', '');
+      if (S.some(s => pend(s) && (s.ambiente === n || s.ambiente === a.num))) return toast('No se puede eliminar: el ambiente tiene solicitudes pendientes.');
+      abrir('dlg-eliminar', { ref: a.num, ok: () => { A = A.filter(x => x !== a); persist(); toast('Ambiente eliminado.'); render(); } });
+    },
     clave: () => abrir('dlg-clave', { ok: v => {
       const u = U.find(x => x.correo === session.email);
       if (u.clave !== v.actual) return { campo: 'actual', msg: 'La contraseña actual es incorrecta.' };
@@ -196,7 +207,7 @@ function iniciarPanel() {
       u.clave = v.nueva; persist(); toast('Contraseña actualizada.');
     } }),
     correo: () => abrir('dlg-correo', { val: { pref: load(prefKey, 'Activadas') }, ok: v => { save(prefKey, v.pref); toast(`Notificaciones ${v.pref.toLowerCase()}.`); render(); } }),
-    reset: () => abrir('dlg-reset', { ok: () => { ['bolt_solicitudes', 'bolt_ambientes', 'bolt_notifs'].forEach(k => localStorage.removeItem(k)); location.reload(); } }),
+    reset: () => abrir('dlg-reset', { ok: () => { ['bolt_solicitudes', 'bolt_ambientes', 'bolt_notifs', 'bolt_usuarios'].forEach(k => localStorage.removeItem(k)); if (!SEED_USERS.some(u => u.correo === session.email)) localStorage.removeItem('bolt_session'); location.reload(); } }),
     exportar: () => {
       const csv = ['ID,Ambiente,Servicio,Estado,Prioridad,Tiempo', ...S.map(s => [s.id, s.ambiente, s.servicio, s.estado, s.prioridad, s.tiempo].join(','))].join('\n');
       const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + csv], { type: 'text/csv' })); a.download = 'reporte_bolt.csv'; a.click(); toast('Reporte descargado.');
